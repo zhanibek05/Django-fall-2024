@@ -1,0 +1,24 @@
+{% extends "master.html" %}
+
+{% block title %}
+ List of all Posts
+{% endblock %}
+  
+
+{% block content %}
+
+<h1>Posts</h1> 
+
+
+<p><a href="/posts/create">Create Post</a></p>
+
+<ul>
+  {% for post in posts %}
+  
+    <li>  <a href="/posts/{{post.id}}">{{ post.title }}</a>  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+
+

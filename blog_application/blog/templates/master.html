@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<h1>Blog application  </h1>
+{% if user.is_authenticated %}
+    <p>Welcome, <a href="/profile/">{{ user.username }}</a>!</a></p>
+    
+{% else %}
+    <p> <a href="/login/">log in</a> </p>
+{% endif %}
+<hr>
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

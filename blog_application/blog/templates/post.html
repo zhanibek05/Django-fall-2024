@@ -1,0 +1,39 @@
+{% extends "master.html" %}
+
+{% block title %}
+
+Post {{post.title}}  
+
+{% endblock %}
+
+{% block content%}
+<p>Back to <a href="/posts">Posts</a></p>
+    <h3>{{post.title}}</h3>
+
+    <p>{{post.content}}</p>
+
+    <p>Author: <a href="/users/{{post.author.id}}">{{post.author}}</a></p>
+    <p>Created at: {{post.created_at}}</p>
+
+    <hr>
+
+    
+    <label for="new_comment">Write a comment</label>
+    <form id="new_comment" action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Create</button>
+    </form>
+
+    <h3>Comments</h3>
+    {% for comment in comments %}
+     <p style="font-weight: bolder; color:darkblue">{{comment.author}}</p>
+     <p >{{comment.content}}</p>
+     <p style="font-size:smaller; color: gray;">{{comment.created_at}}</p>
+
+     <hr style=" opacity:0.5; color: gray; ">
+
+    {% endfor %}
+    
+    
+{% endblock %}

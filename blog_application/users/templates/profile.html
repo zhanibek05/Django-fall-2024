@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Back to <a href="/posts/">Posts</a></p>
+    <h2>Profile</h2>
+    <p>Username: {{user.username}}</p>
+    <p>Email: {{user.email}}</p>
+    <label for="avatar">Avatar</label>
+    {% if profile.avatar %}
+        <img id="avatar" src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}'s Avatar" style="width: 200px; height: 200px;">
+    {% else %}
+       <p>You do not have avatar image yet</p>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  
+
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+
+    <p><a href="/logout/">Logout</a></p>
+{% endblock %}

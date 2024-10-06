@@ -1,0 +1,27 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Create Post
+{% endblock %}
+
+{% block content %}
+<p>Back to <a href="/posts">Posts</a></p>
+<h2>Create new Post </h2>
+
+{% if user.is_authenticated %}
+<form action="/posts/create" method="post">
+    {% csrf_token %}
+    <p><label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label> {{ form.title }}</p>
+    <p><label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label> {{ form.content }}</p>
+    <p><label for="{{ form.created_at.id_for_label }}">{{ form.created_at.label }}</label> {{ form.created_at }}</p>
+    <p>Author: {{ user.username }}</p>
+    <p><button type="submit">Create Post</button></p>
+</form>
+{% else %}
+    <p>Please <a href="/login/">log in</a> to create Post.</p>
+{% endif %}
+
+{% endblock %}
+
+
+
