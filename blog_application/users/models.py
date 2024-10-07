@@ -8,6 +8,8 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg')
     
 class Follow(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
-    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
+    
+    
     

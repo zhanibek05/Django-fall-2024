@@ -7,6 +7,7 @@ from django.template import loader
 from django.http import HttpResponse
 from .models import Profile, Follow
 
+
 # Register view
 def register(request):
     if request.method == 'POST':
@@ -51,6 +52,8 @@ def user_logout(request):
 
 def user_profile_edit(request):
     profile = request.user.profile  # Get the current user's profile
+    followers_count = Follow.objects.filter(following=request.user).count()
+    follower_users = Follow.objects.filter(following=request.user)
 
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
@@ -64,6 +67,8 @@ def user_profile_edit(request):
     context = {
         'form': form,
         'profile': profile,
+        'followers_count': followers_count,
+        'follower_users': follower_users,
     }
     return render(request, 'profile.html', context)
 
@@ -71,11 +76,28 @@ def user_profile_edit(request):
 def user_profile(request, id):
     user = User.objects.get(id=id)
     profile = Profile.objects.get(user=user)
-    if (request.method == "POST"):
-        follow_object = Follow.objects.create(follower=request.user, following=user)
-        follow_object.save()
+    #check that current user followed or not for this profile
+    is_following = Follow.objects.filter(follower=request.user, following=user).exists()
+    #get all followers fo this profile
+    followers_count = Follow.objects.filter(following=user).count()
+    follower_users = Follow.objects.filter(following=user)
+    if request.method == "POST":
+        action = request.POST.get("action")
+        
+        if action == "follow" and not is_following:
+            Follow.objects.create(follower=request.user, following=user)
+        
+        elif action == "unfollow" and is_following:
+            Follow.objects.filter(follower=request.user, following=user).delete()
+
+
+        return redirect(f'/users/{id}')
+    
     
     context = {
         "profile": profile,
+        "is_following": is_following,
+        "followers_count": followers_count,
+        "follower_users": follower_users,
     }
     return render(request, 'follow.html' , context)

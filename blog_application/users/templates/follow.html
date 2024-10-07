@@ -4,10 +4,25 @@
     <p>Back to <a href="/posts/">Posts</a></p>
     <h2>Profile</h2>
     <p>Username: {{profile.user.username}}</p>
+    <p>Followers: {{followers_count}}</p>
+    
+
+{% if not is_following %}
     <form action="" method="POST">
         {% csrf_token %}
+        <input type="hidden" name="action" value="follow">
         <button style="color:white; background-color:darkblue" type="submit">Follow</button>
     </form>
+{% else %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="unfollow">
+        <button style="color:white; background-color:darkblue" type="submit">Unfollow</button>
+    </form>
+{% endif %}
+    
+        
+
     <p></p>
     <label for="avatar">Avatar</label>
     {% if profile.avatar %}
@@ -15,6 +30,12 @@
     {% else %}
     <p>Not avatar</p>
     {% endif %}
-    <p>{{profile.bio}}</p>
-        
+    <p>Bio: {{profile.bio}}</p>
+
+    <h3>Followers</h3>
+
+    {% for follower in follower_users %}
+        <p>{{follower.follower}}</p>
+    {% endfor %}
+         
 {% endblock %}

@@ -4,13 +4,23 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+
+<div style="display: flex; flex-direction:row; ">
 <h1>Blog application  </h1>
 {% if user.is_authenticated %}
-    <p>Welcome, <a href="/profile/">{{ user.username }}</a>!</a></p>
-    
+  <p style="position: relative; left:1000px; top:15px;"> <a style="color:black; font-size:20px; font-weight:bolderx" href="/profile/">{{ user.username }}</a></p>
+  
 {% else %}
-    <p> <a href="/login/">log in</a> </p>
+  <p  style="position: relative; left:1000px; top:15px;"> <a style="color:black; font-size:20px; font-weight:bolderx" href="/login/">log in</a> </p>
 {% endif %}
+
+<p style="position: relative; left:600px; top:15px;" > <a style="color:black; font-size:20px; font-weight:bolderx" href="/posts/">All posts</a></p>
+
+<p style="position: relative; left:700px; top:15px;" > <a style="color:black; font-size:20px; font-weight:bolderx" href="/my_posts/">My posts</a></p>
+
+
+</div>
+
 <hr>
 {% block content %}
 {% endblock %}

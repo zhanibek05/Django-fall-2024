@@ -3,20 +3,32 @@
 {% block content %}
     <p>Back to <a href="/posts/">Posts</a></p>
     <h2>Profile</h2>
-    <p>Username: {{user.username}}</p>
-    <p>Email: {{user.email}}</p>
-    <label for="avatar">Avatar</label>
-    {% if profile.avatar %}
-        <img id="avatar" src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}'s Avatar" style="width: 200px; height: 200px;">
-    {% else %}
-       <p>You do not have avatar image yet</p>
-    {% endif %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}  
-
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-    </form>
-
-    <p><a href="/logout/">Logout</a></p>
+    <div style="display: flex; flex-direction:row; margin:10px">
+        <div style="display: flex; flex-direction:column; justify-items:center">
+            <p>Username: {{user.username}}</p>
+            <p>Email: {{user.email}}</p>
+            <p>{{followers_count}} followers</p>
+            <label for="avatar">Avatar</label>
+            {% if profile.avatar %}
+                <img id="avatar" src="{{ profile.avatar.url }}" alt="{{ profile.user.username }}'s Avatar" style="width: 200px; height: 200px;">
+            {% else %}
+               <p>You do not have avatar image yet</p>
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}  
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        
+            <p><a href="/logout/">Logout</a></p>
+        </div>
+        <hr>
+        <div style="display: flex; flex-direction:column; ; position:relative; left:-400px">
+            <h3>Followers</h3>
+            {% for x in follower_users %}
+                <a href="/users/{{x.follower.id}}" style="margin: 2px;">{{x.follower}}</a>
+            {% endfor %}
+        </div>
+    </div>
+    
 {% endblock %}

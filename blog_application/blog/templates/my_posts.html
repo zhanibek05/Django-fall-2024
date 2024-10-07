@@ -1,16 +1,19 @@
 {% extends "master.html" %}
 
 {% block title %}
- List of all Posts
+ My Posts
 {% endblock %}
   
 
 {% block content %}
 
-<h2>All Posts</h2> 
+<h2>My Posts</h2> 
+
+<p><a href="/posts/create">Create Post</a></p>
+
 
   {% for post in posts %}
-     <a style="color: black; " href="/posts/{{post.id}}">
+     <a style="color: black; " href="/my_posts/{{post.id}}">
       <div style="margin-right:200px; margin-left: 15px; border:1px solid gray; margin-bottom:5px; padding:10px">
           <h3>{{post.title}}</h3>
           <p style="color: gray;">{{post.created_at}}</p>
