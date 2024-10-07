@@ -22,17 +22,17 @@ Post {{post.title}}
     <form id="new_comment" action="" method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Create</button>
+        <button style="color: white; background-color:darkblue; cursor:pointer" type="submit">Send</button>
     </form>
 
     <h3>Comments</h3>
     {% for comment in comments %}
-     <p style="font-weight: bolder; color:darkblue">{{comment.author}}</p>
-     <p >{{comment.content}}</p>
-     <p style="font-size:smaller; color: gray;">{{comment.created_at}}</p>
-
-     <hr style=" opacity:0.5; color: gray; ">
-
+    <div style="margin-left: 10px; padding-left:10px ">
+        <p style="font-weight: bolder; color:darkblue">{{comment.author}}</p>
+        <p >{{comment.content}}</p>
+        <p style="font-size:smaller; color: gray;">{{comment.created_at}}</p>
+    </div>
+    <hr style=" opacity:0.5; color: gray; ">
     {% endfor %}
     
     

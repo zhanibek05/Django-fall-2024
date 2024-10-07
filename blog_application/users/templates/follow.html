@@ -35,7 +35,7 @@
     <h3>Followers</h3>
 
     {% for follower in follower_users %}
-        <p>{{follower.follower}}</p>
+        <p><a href="/users/{{follower.follower.id}}">{{follower.follower}}</a></p>
     {% endfor %}
          
 {% endblock %}

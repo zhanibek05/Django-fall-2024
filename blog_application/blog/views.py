@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import redirect, render
 from .models import Post, Comment
 from django.http import HttpResponse
@@ -25,25 +26,31 @@ def my_posts(request):
 def my_post(request, id):
     post = Post.objects.get(id=id)
     comments = Comment.objects.filter(post = post)
-    
     if(request.method == 'POST'):
-        form = AddCommentForm(request.POST)
         action = request.POST.get("action")
-        if action == 'edit_post':
+        if (action == 'edit_post'):
             postForm = AddPostForm(request.POST)
-        if action == 'delete_post':
+            if postForm.is_valid():
+                post.title = postForm.cleaned_data['title']
+                post.content = postForm.cleaned_data['content']
+                post.created_at = datetime.now()
+                post.save()
+                return redirect(f"/my_posts/{id}")
+        elif(action == 'delete_post'):
             post.delete()
             return redirect(f'/my_posts/')
-        if form.is_valid() and action == 'create_comment':
-            content = form.cleaned_data['content']
-            created_at = form.cleaned_data['created_at']
-            author = request.user
-            comment = Comment.objects.create(content=content, created_at= created_at, author=author, post=post)
-            comment.save()
-            return redirect(f'/my_posts/{id}')
+        elif (action == 'create_comment'):
+            form = AddCommentForm(request.POST)
+            if form.is_valid():
+                content = form.cleaned_data['content']
+                created_at = datetime.now()
+                author = request.user
+                comment = Comment.objects.create(content=content, created_at= created_at, author=author, post=post)
+                comment.save()
+                return redirect(f'/my_posts/{id}')
     else:
         form = AddCommentForm()
-        postForm = AddPostForm()
+        postForm = AddPostForm(instance=post)
     template = loader.get_template('edit_post.html')
     context = {
         "form": form,
@@ -61,7 +68,7 @@ def get_post(request, id):
         form = AddCommentForm(request.POST)
         if form.is_valid():
             content = form.cleaned_data['content']
-            created_at = form.cleaned_data['created_at']
+            created_at = datetime.now()
             author = request.user
             comment = Comment.objects.create(content=content, created_at= created_at, author=author, post=post)
             comment.save()
@@ -82,7 +89,7 @@ def create_post(request):
         if form.is_valid():
             post_title = form.cleaned_data['title']
             post_content = form.cleaned_data['content']
-            created_at = form.cleaned_data['created_at']
+            created_at = datetime.now()
             author = request.user
             post = Post.objects.create(title=post_title, content=post_content, created_at=created_at, author=author)
             post.save()
